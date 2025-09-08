@@ -1,0 +1,549 @@
+# Apuntes del curso
+
+## Conceptos básicos
+
+### Direcciones IP (IPV4 e IPV6)
+
+Las direcciones IP son identificadores numéricos únicos que se utilizan para identificar dispositivos en una red, como ordenadores, routers, servidores y otros dipositivos conectados a Internet.
+
+Existen dos versiones de direcciones IP: IPv4 e IPv6.
+
+La versión IPv4 utiliza un formato de dirección de 32 bits y se utiliza actualmente en la mayoría de las redes.
+La versión IPv6 utiliza un formatio de dirección de 128 bits y se está implementando gradualmente en todo el mundo para hacer frente a la escasez de direcciones IPv4.
+
+Las direcciones IPv4 se representan como cuatro números separados por puntos, como 192.168.0.1 mientras que las direcciones IPv6 se representan en notación hexadecimal y se separan por dos puntos, como 2001:0db8:85a3:0000:0000:8a2e:0370:7334.
+
+```bash
+echo "$(echo "obase=2; 192" | bc).$(echo "obase=2; 168" | bc).$(echo "obase=2; 0" | bc).$(echo "obase=2; 5" | bc)
+
+> 11000000.10101000.00000000.00000101
+
+echo "2^32" | bc
+
+echo "2^128" | bc
+
+```
+
+![Estructura de dirección IPv4](https://ccnadesdecero.es/wp-content/uploads/2019/12/Direcci%C3%B3n-IPv4.jpg)
+
+![Estructura de dirección IPv6](https://www.sunucun.com.tr/blog/wp-content/uploads/2024/04/IPv6-1536x864.png)
+
+### Direcciones MAC (OUI y NIC)
+
+La dirección MAC es un número hexadecimal de 12 dígitos (número binario de 6 bytes), que está representado principalmente por notación hexadecimal de dos puntos.
+
+Los primeros 6 dígitos (digamos 00:40:96) del MAC Address identifican al fabricante, llamado OUI (Identificador Único Organizacional). El comité de la Autoridad de Registro de IEEE asigna estos prefijos MAC a sus proveedores registrados.
+
+Los 6 dígitos más a la derecha representan el controlador de interfaz de red, que es asignado por el fabricante.
+
+Es decir, los primeros 3 bytes (24 bits) representan el fabricante de la tarjeta, y los últimos 3 bytes (24 bits) identifican la tarjeta particular de ese fabricante. Cada grupo de 3 bytes se puede representar con 6 dígitos hexadecimales, formando un número hexadecimal de 12 dígitos que representan la MAC completa.
+
+![Estructura de dirección MAC](https://ccnadesdecero.es/wp-content/uploads/2020/03/Direcci%C3%B3n-MAC-Ethernet.png)
+
+Para una búsqueda de fabricante utilizando direcciones MAC, se requieren al menos los primeros 3 bytes (6 caracteres) de la dirección MAC. Una de las herramientas que vemos en esta clase para logra dicho fin es 'macchanger', una herramienta de GNU/Linux para la visualización y manipulación de direcciones MAC.
+
+```bash
+macchanger -l | grep -i vmware
+```
+
+### Protocolos comunes (UDP, TCP) y el famoso Three-Way Handshake
+
+Los protocolos TCP (Transmission Control Protocol) y UDP (User Datagram Protocol) son dos de los protocolos de red más comunes utilizados en la transferencia de datos a través de redes de ordenadores.
+
+El protocolo TCP, es un protocolo orientado a la conexión que proporciona una entrega de datos confiable, mientras que el protocolo UDP, es un protocolo no orientado a conexión el cual no garantiza la entrega de datos.
+
+Una parte crucial del protocolo TCP es el Three-Way Handshake, un procedimiento utilizado para establecer una conexión entre dos dispositivos. Este procedimiento consta de tres pasos: SYN, SYN-ACK, ACK, en los qe se sincronizan los números de secuencia y de reconocimiento de los paquetes entre los dispositivos. El Three-Way Handshake es fundamental para estabalecer una conexión confiable y segura a través de TCP.
+
+Puertos TCP comunes:
+
+* 21: FTP (File Transfer Protocol) - Permite la transferencia de archivos entre sistemas.
+* 22: SSH (Secure Shell) - Un protocolo de red seguro que permite a los usuarios conectarse y administrar sistemas de forma remota.
+* 23: Telnet - Un protocolo utilizado para la conexión remota a dispositivos de red.
+* 80: HTTP (HyperText Transfer Protocol) - El protocolo que se utiliza para la transferencia de datos en la World Wide Web.
+* 443: HTTPS (HyperText Transfer Protocol Secure) - La versión segura de HTTP, que utiliza encriptación SSL/TLS para proteger las comunicaciones web.
+
+* 110: POP3
+* 139,445: SMB
+* 143: IMAP
+
+Puertos UDP comunes:
+
+* 53: DNS (Domain Name System) - Un sistema que traduce nombres de dominio en direcciones IP.
+* 67/68: DHCP (Dynamic Host Configuration Protocol) - Un protocolo utilizado para asignar direcciones IP y otros parámetros de configuración a los dispositivos en una red.
+* 69: TFTP (Trivial File Transfer Protocol) - Un protocolo simple utilizado para transferir archivos entre dispositivos en una red.
+* 123: NTP (Network Time Protocol) - Un protocolo utilizado para sincronizar los relojes de los dispositivos en una red.
+* 161: SNMP (Simple Network Management Protocol) - Un protocolo utilizado para administrar y supervisar dispositivos en una red.
+
+Cabe destacar que estos son solo algunos de los más comunes. Existen muchos más puertos los cuales operan tanto por TCP como por UDP.
+
+A medida que avancemos en el curso, tendremos la oportunidad de ver muchos otros puertos y protocolos utilizados en redes de ordenadores. Asimismo, veremos técnincas para analizar y explotar vulnerabilidades en su implementación.
+
+### El modelo OSI - ¿En qué consiste y cómo se estructura la actividad de red en capas?
+
+En redes de ordenadores, el modelo OSI (Open Systems Interconnection) es una estructura de siete capas que se utiliza para describir el proceso de comunicación entre dispositivos. Cada capa proporciona servicios y funciones específicas, que permiten a los dispositivos comunicarse a través de la red.
+
+A continuación, se describen brevemente las siete capas del modelo OSI.
+
+1. Capa Física: Es la capa más baja del modelo OSI, que se encarga de la transmisión de datos a través del medio físico de la red, como cables de cobre o fibra óptica.
+2. Capa de Enlace de Datos: Esta capa se encarga de la transferencia confiable de datos entre dispositivos en la misma red. También proporciona funciones para la detección y corrección de errores en los datos transmitidos.
+3. Capa de red: La capa de red se ocupa del enrutamiento de paquetes de datos a través de múltiples redes. Esta capa utiliza direcciones lógicas, como direcciones IP, para identificar dispositivos y rutas de red.
+4. Capa de Transporte: La capa de transporte se encarga de la entrega confiable de datos entre dispositivos finales, proporcionando servicios como el control del flujo y la corrección de errores.
+5. Capa de sesión: Esta capa se encarga de establecer y mantener las sesiones de comunicación entre dispositivos. También proporcionan servicios de gestión de sesiones, como la autenticación y la autorización.
+6. Capa de presentación: La capa de presentación se encarga de la representación de datos, proporcionando funciones como la codificación y decodificación de datos, la comprensión y el cifrado.
+7. Capa de aplicación: La capa de aplicación proporciona servicios para aplicaciones de usuario finales, como correo electrónico, navegadores web y transferencia de archivos.
+
+Comprender la estructura en capas del modelo OSI es esencial para cualquier analista de seguridad, ya que permite tener una visión completa del funcionamiento de la red y de las posibles vulnerabilidades que pueden existir en cada una de las etapas.
+
+Esto nos permite identificar de manera efectiva los puntos débiles de la red y aplicar medidas de seguridad adecuadas para protegerla de posibles ataques.
+
+### Subnetting - ¿Qué es y cómo se interpreta una máscara de red?
+
+Subnetting es una técnica utilizada para dividir una red IP en subredes más pequeñas y manejables. Esto se logra mediante el uso de máscaras de red, que permiten definir qué bits de la dirección IP corresponden a la red y cuáles a los hosts.
+
+Para interpretar una máscara de red, se deben identificar los bits que están en la "1". Estos bits representan la porción de la dirección IP que corresponde a la red. Por ejemplo, una máscara de red de 255.255.255.0 indica que los primeros tres octetos de la dirección IP corresponden a la red, mientras que el último octeto se utiliza para identificar los hosts.
+
+Ahora bien, cuando hablamos de CIDR (acrónimos de Classless Inter-Domain Routing), a lo que nos referimos es a un método de asignación de direcciones IP más eficiente y flexible que el uso de clases de redes IP fijas. Con CIDR, una dirección IP se representa mediante una dirección IP base y una máscara de red, que se escriben juntas separadas por una barra (/).
+
+Por ejemplo, la dirección IP 192.168.1.1 con una máscara de red de 255.255.255.0 se escribiría como 172.168.1.1/24.
+
+La máscara de red se representa en notación de prefijo, que indica el número de bits que están en "1" en la máscara. En este caso, la máscara de red 255.255.255.0 tiene 24 bits en "1" (los primeros tres octetos), por lo que su notación de prefijo es /24.
+
+Para calcular la máscara de red a partir de una notación de prefijo, se deben escribir los bits "1", en los primeros bits de una dirección IP de 32 bits y los bits "0" en los bits restantes. Por ejemplo, la máscara de red /24 se calcularía como 11111111.11111111.11111111.00000000 en binario, lo que equivale a 255.255.255.0 en decimal.
+
+En las siguientes clases, profundizaremos mucho más en todo esto, viendo múltiples ejemplos y casos prácticos con los que poder curiosear.
+
+| 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1 | Total |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 255 |
+| 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 255 |
+| 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 255 |
+| 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+
+### Subnetting - CIDRs y cálculo total de hosts
+
+En cuanto a clases de direcciones IP, existen tres tipos de máscaras de red: Clase A, Clase B y Clase C.
+
+* Las redes de clase A usan una máscara de subred predeterminada de 255.0.0.0 y tienen de 0 a 127 como su primer octeto. La dirección 10.52.36.11, por ejemplo, es una dirección de clase A. Su primer octeto es 10, que está entre 1 y 126, ambos incluidos.
+* Las redes de clase B usan máscara de subred predeterminada de 255.255.0.0 y tienen de 128 a 191 como su primer octeto. La dirección 172.16.52.63, por ejemplo, es una dirección de clase B. Su primer octeto es 172, que está entre 128 y 191, ambos inclusive.
+* Las redes de clase C usan una máscara de subred predeterminada de 255.255.255.0 y tienen de 192 a 223 como su primer octeto. La dirección 192.168.123.132, por ejemplo, es una dirección de clase C. Su primer octeto es 192, que está entre 192 y 223, ambos incluidos.
+
+Es importante tener en cuenta que, además de estos tres tipos de máscaras de red, también existen máscaras de red personalizadas que se pueden utilizar para crear subredes de diferentes tamaños dentro de una red.
+
+Tal y como mencionamos en la descripción de la clase anterios sobre los CIDRs, se trata de un método de asignación de direcciones IP que permite dividir una dirección IP en una parte que identifica la red y otra parte que identifica el host. Esto se logra mediante el uso de una máscara de red, que se representa en notación CIDR com una dirección IP base seguirda de un número que indica la cantidad de bits que corresponden a la red.
+
+Con CIDR, se pueden asignar direcciones IP de forma más precisa, lo que reduce la cantidad de direcciones IP desperdiciadas y facilita la administración de la red.
+
+El número que sigue a la dirección IP base en la notación CIDR se llama prefijo o longitud de prefijo, y representa el número de bits en la máscara de red que están en "1".
+
+Por ejemplo, una dirección IP con un prefijo de /24 indica que los primeros 24 bits de la dirección IP corresponden a la red, mientras que los 8 bits restantes se utilizan para identificar los hosts.
+
+Para calcular la cantidad de hosts disponibles en una red CIDR, se deben contar el número de bits "0" en la máscara de red y elevar 2 a la potencia ese número. Esto se debe a que cada bit "0" en la máscara de red representa un bit que se puede utilizar para identificar un host.
+
+Por ejemplo, una máscara de red de 255.255.255.0 (/24) tiene 8 bits en "0", lo que significa que hay 2^8 = 256 direcciones IP disponibles para los hosts en la red.
+
+A continuación, se representan algunos ejemplos prácticos de CIDR:
+
+* Una dirección IP con un prefijo de /28 (255.255.240) permite hasta 16 direcciones IP para los host (2^4), ya que los primeros 28 bits corresponden a la red.
+* Una dirección IP con un prefijo de /26 (255.255.255.192) permite hasta 64 direcciones IP para los hosts (2^6), ya que los primeros 26 bits corresponden a la red.
+* Una dirección IP con un prefijo de /22 (255.255.252.0) permite hasta 1024 direcciones IP para los hosts (2^10), ya que los primeros 22 bits corresponden a la red.^
+
+Si aún te quedan dudas y necesitas reforzar el contenido con más ejemplos prácticos, no te preocupes, en las clases siguientes estaremos entrando muchos más en materia.
+
+### Subnetting - Máscaras de subred, tipos de clase e interpretación de prefijos de red
+
+En esta clase, explicamos cómo calcular para la dirección IP 192.168.1.0/26, su máscara de red, el número total de hosts a repartir, el identificador de red y la dirección Broadcast.
+
+A continuación, se detalla paso a paso cómo hemos ido calculando cada apartador:
+
+* 1 Cálculo de la máscara de red:
+
+La direccion IP que se nos dió es 192.168.1.0/26, lo que significa que los primero 26 bits de la dirección IP corresponden a la red y los últimos 6 bits corresponden a los hosts.
+
+Para calcular la máscara de red, necesitamos colocar los primeros 26 bits en 1 y los últimos 6 bits en 0. En binario, esto se ve así:
+
+11111111.11111111.11111111.11000000
+
+Cada octeto de la máscara de red se compone de 8 bits. El valor de cada octeto se determina convirtiendo los 8 bits a decimal. En este caso, los primeros 24 bits son todos 1s, lo que significa que el valor decimal de cada uno de estos octetos es 255. El último octeto tiene los últimos 6 bits en 0, lo que significa que su valor decimal es 192.
+
+Por lo tanto, la máscara de red para esta dirección IP es 255.255.255.192.
+
+* 2 Cálculo del total de hosts a repartir:
+
+En este caso, se pueden utilizar los 6 bits que quedan disponibles para representar la parte de host. En una máscara de red de 26 bits, los 6 bits restantes representan 2^6 – 2 = 62 hosts disponibles para asignar.
+
+El número máximo de hosts disponibles se calcula como 2^(n) – 2, donde n es la cantidad de bits utilizados para representar la parte de host en la máscara de red.
+
+* 3 Cálculo del Network ID:
+
+Para calcular el Network ID, lo que debemos hacer es aplicar la máscara de red a la dirección IP de la red. En este caso, la máscara de red es 255.255.255.192, lo que significa que los primeros 26 bits de la dirección IP pertenecen a la parte de red.
+
+Para calcular el Network ID, convertimos tanto la dirección IP como la máscara de red en binario y luego hacemos una operación “AND” lógica entre los dos. La operación “AND” compara los bits correspondientes en ambas direcciones y devuelve un resultado en el que todos los bits coincidentes son iguales a “1” y todos los bits no coincidentes son iguales a “0“.
+
+En este caso, la dirección IP es 192.168.1.0 en decimal y se convierte en binario como 11000000.10101000.00000001.00000000. La máscara de red es 255.255.255.192 en decimal y se convierte en binario como 11111111.11111111.11111111.11000000.
+
+Luego, aplicamos la operación “AND” entre estos dos valores binarios bit a bit. Los bits correspondientes en ambos valores se comparan de la siguiente manera:
+
+```bash
+11000000.10101000.00000001.00000000 (dirección IP)
+11111111.11111111.11111111.11000000 (Máscara de red)
+-----------------------------------
+11000000.10101000.00000001.00000000 (Resultado de la operación AND)
+```
+
+El resultado final es el Network ID, que es 192.168.1.0. Este es el identificador único de la subred a la que pertenecen los hosts.
+
+* 4 Cálculo de la Broadcast Address:
+
+La Broadcast Address es la dirección de red que se utiliza para enviar paquetes a todos los hosts de la subred. Para calcularla, necesitamos saber el Network ID y la cantidad de hosts disponibles en la subred.
+
+En el ejemplo que estamos trabajando, ya hemos calculado el Network ID como 192.168.1.0. La cantidad de hosts disponibles se calcula como 2^(n) – 2, donde n es la cantidad de bits utilizados para representar la parte de host en la máscara de red. En este caso, n es igual a 6, ya que hay 6 bits disponibles para la parte de host.
+
+Para calcular la Broadcast Address, debemos asignar todos los bits de la parte del host de la dirección IP a “1“. En este caso, la dirección IP es 192.168.1.0 y se convierte en binario como 11000000.10101000.00000001.00000000.
+
+Para encontrar la dirección Broadcast, llenamos con unos la parte correspondiente a los bits de host, es decir, los últimos 6 bits:
+
+11000000.10101000.00000001.00111111 (dirección IP con bits de host asignados a “1“)
+
+Luego, convertimos este valor binario de regreso a decimal y obtenemos la dirección de Broadcast: 192.168.1.63. Esta es la dirección a la que se enviarán los paquetes para llegar a todos los hosts de la subred.
+
+### Subnetting - Interpretación de los rangos de red que el cliente nos ofrece para auditar
+
+Esta clase no consideramos que necesite material de apoyo, pues se abordan varios ejercicios prácticos con los que poder practicar y reforzar todo lo visto hasta ahora.
+
+[Os dejamos por aquí la página web correspondiente al conversor de CIDR a IPv4](https://www.ipaddressguide.com/cidr)
+
+Os animamos a que tratéis de practicar con muchos más ejemplos, es la única forma de hacer que todos estos conceptos os queden bien claros.
+
+### Subnetting - Redes extrañas y casos particulares
+
+En esta clase, vamos a terminar de rellenar los datos correspondientes a las direcciones IP que nos quedaron pendientes de la clase anterior. Asimismo, vamos a estar explicando un caso particular de redes extrañas, para que sepáis cómo proceder con su interpretación.
+
+Trataremos de calcular para la notación 13.13.13.13/13 la máscara de red, el número total de hosts a repartir, el Network ID y la Broadcast Address.
+
+Considerando todo lo aprendido hasta el momento, ¡ha llegado la hora de aplicar los conocimientos adquiridos! Demuestra que has comprendido los conceptos y que estás listo para avanzar, enfrentándote al cuestionario que se te presentará en la siguiente clase.
+
+¡Mucha suerte!
+
+[Tabla hecha con savitar](https://docs.google.com/spreadsheets/d/1aIeTBWYn7fueLlGtrbuIIT1KRxHKyOfigl_6BhG6-Dk/edit?usp=sharing)
+
+### TIPS de subnetting y cálculo veloz de direccionamiento en redes
+
+En esta clase, veremos algunas técnicas adicionales para calcular velozmente el Network ID, la máscara de red y la Broadcast Address, en base a una dirección IP y CIDR que el cliente nos pase. De esta forma, no será necesario hacer uso del Excel que previamente construimos, logrando tener en un menor tiempo los valores correspondientes a cada componente de direccionamiento.
+
+A continuación, se proporciona el recurso que utilizamos en esta clase:
+
+* [IP Calculator](https://docs.google.com/spreadsheets/d/1aIeTBWYn7fueLlGtrbuIIT1KRxHKyOfigl_6BhG6-Dk/edit?usp=sharing)
+
+Ejemplo 1:
+
+Ip dada por el cliente: 172.14.15.16/17
+
+```bash
+echo "obase=2;172" | bc
+```
+
+Representando la Ip en Binario:
+
+10101100.00001110.00001111.00010000 (172.14.15.16)
+11111111.11111111.10000000.00000000 (255.255.128.0) Máscara de Red
+###########################
+10101100.00001110.00000000.00000000 [AND] (172.14.0.0 - Network ID)
+
+10101100.00001110.01111111.11111111 (172.14.127.255 - Broadcast Address)
+
+Ejemplo 2:
+
+Ip dada por el cliente: 192.112.114.29/13
+
+```bash
+echo "obase=2;192" | bc
+```
+
+Representando la Ip en Binario:
+
+11000000.01110000.01110010.00011101 (192.112.114.29)
+11111111.11111000.00000000.00000000 (255.248.0.0) Máscara de Red
+###########################
+11000000.011100000.00000000.00000000 [AND] (192.112.0.0 - Network ID)
+
+11000000.01110111.11111111.11111111 (192.119.255.255 - Broadcast Address)
+
+Ejemplo 3:
+
+Ip dada por el cliente: 13.51.47.131/4
+
+```bash
+echo "obase=2;13" | bc
+```
+
+Representando la Ip en Binario:
+
+00001101.00110011.00101111.10000011 (13.51.47.131)
+11110000.00000000.00000000.00000000 (240.0.0.0) Máscara de Red
+###########################
+00000000.00000000.00000000.00000000 [AND] (0.0.0.0 - Network ID)
+
+00001111.11111111.11111111.11111111 (15.255.255.255 - Broadcast Address)
+
+Cuando un cliente nos hable de IP sepamos donde operar.
+
+## Reconocimiento
+
+### Nmap y sus diferentes modos de escaneo
+
+Nmap es una herramienta de escaneo de red gratuita y de código abierto que se utiliza en prueba de penetración (pentesting) para explorar y auditar redes y sistemas informáticos.
+
+Con Nmap, los profesionales de seguridad pueden identificar los hosts conectados a una red, los servicios que se están ejecutando en ellos y las vulnerabilidades que podrían ser explotadas por un atacante. La herramienta es capaz de detectar una amplia gama de dispositivos, incluyendo enrutadores, servidores web, impresoras, cámaras IP, sistemas operativos y otros dispositivos conectados a una red.
+
+Asimismo, esta herrmienta posee una variedad de funciones y características avanzadas que permitan a los profesionales de seguridad adaptar la misma a sus necesidades específicas. Estas incluyen técnicas de escaneo agresivas, capacidades de scripting personalizadas, y un conjunto de herramientas auxiliares que pueden ser utilizadas para obtener información adicional sobre los host objetivo.
+
+Un puerto puede estar: Abierto, cerrado o filtrado
+
+```bash
+route -n # Nos lista rutas
+iwconfig # Nos lista las interfaces de nuestro equipo
+ifconfig # Nos lista las interfaces de nuestro equipo
+arp-scan -I ens33 --localnet # Enumerar dispositivos en la red
+
+nmap -p1-100 192.168.1.1 # Rango de puertos a escanear
+nmap -p- 192.168.1.1 # -p- se usa para englobar todos los puertos
+nmap --top-ports 500 192.168.1.1 # Se usa para escanear los 500 puertos más comunes
+nmap --top-port 500 --open 192.168.1.1 # Se usa solo para ver puertos abiertos en la consulta
+nmap -p- --open 192.168.1.1 -v # -v se usa para mostrar el progreso del escaneo
+nmap -p- --open 192.168.1.1 -v -n # -n se usa para negar la resolución DNS
+nmap -p- -T5 --open 192.168.1.1 -v -n # -T5 indica la velocidad con la que queremos realizar el escaneo siendo 0, 1, 2, 3, 4, 5
+nmap -p- -T5 -sT --open 192.168.1.1 -v -n # sT TCP connected scan, se establece el three way handshake típico, se lanza un SYN si un puerto esta cerrado nos regresa un RST, de lo contrario con un SYN, que es igual a que esta abierto, y de nuestro lado mandamos un ACK que es established
+
+# Pasos para capturar el trafico y depositarlo en un archivo y luego jugar con wireshark
+#Crear una captura con tcpdum
+tcpdump -i ens33 -w Captura.cap -v # -v Verbose para ver el numero de paquetes que estoy capturando, -w write para escribir donde quiero depositar el contenido, -i es la interface de la que estamos haciendo el escaneo, damos a enter para capturar paquetes
+nmap -p- -sT --open 192.168.1.1 -v -n # luego damos enter a la venta con esta consulta
+
+# Cancelamos el analisis de la ventana con tcdump
+
+# Jugamos con wireshark y abrimos la captura.cap
+wireshark Captura.cap &>/dev/null & disown # redirigimos el stder y stdout al dev null y lo dejamos en segundo plano con disown
+
+wireshark -r Captura.cap &> /dev/null & disown
+
+# En busqueda podemos filtar por puertos con tcp.port == 22
+
+nmap -p- -T5 --open 192.168.1.1 -v -n -Pn # Asume que todas la direcciones estan UP con -Pn
+
+# Escaneando puertos UDP
+nmap -p- --open -sU 192.168.1.1 -v -n -Pn # -sU para escanear puertos UDP
+nmap -sn 192.168.1.0/24 # -sn para ver si el dispositivo esta encendido en la red local
+nmap -sn 192.168.1.0/24 | grep -oP '\d{1,3}\.\d{1,3}\.\d{1.3}\.\d{1,3}' # Con grep filtramos solo para ver las IPs
+nmap -sn 192.168.1.0/24 | grep -oP '\d{1,3}\.\d{1,3}\.\d{1.3}\.\d{1,3}' | sort # Con sort ordenamos las IPs
+
+nmap -p22,80 -sV 192.168.1.1 # -sV para realizar un escaneo de versiones
+
+```
+
+### Técnicas de evasión de Firewalls (MTU, Data, Length, Source Port, Decoy, etc.)
+
+Cuando se realizan pruebas de penetracion, uno de los mayores desafios es evadir la deteccion de Firewalls, que son disenados para proteger las redes y sistemas de posibles amenazas. Para superar este obstaculo, Nmap ofrece variedad de tecnicas de evasion que permiten a los profesionales de seguridad realizar escaneos sigilosos y evitar asi la deteccion de los mismos.
+
+Algunos de los parametros vistos en esta clase son los siguientes:
+
+* MTU (-mtu): La tecnica de evasion de MTU o "Maximum Transmission Unit" implica ajustar el tamano de los paquetes que se envian para evitar la deteccion por parte del Firewall. Nmap permite configurar manualmente el tamano maximo de los paquetes para garantizar que sean lo suficientemente pequenos para pasar por el Firewall sin ser detectados.
+
+```bash
+nmap -p22 192.168.1.1 --mtu 8 # El numero debe ser multiplo de 8
+```
+
+* Data Length (-data-length): Esta tecnica se basa en ajustar la longitud de los datos enviados para que sean lo suficientemente cortos como para pasar por el Firewall sin ser detectados. Nmap permite a los usuarios configurar manualmente la longitud de los datos enviados para que sean lo suficientemente pequenos para evadir la deteccion del Firewall.
+
+Nmap siempre manda solicitudes con tamano de paquetes de 58, asi los firewall detectan que hay reconocimiento con nmap
+
+```bash
+nmap -p22 192.168.1.1 --data-length 21 # 58+21
+```
+
+* Source Port (-source-port): Esta tecnica consiste en configurar manualmente el numero de puerto de origen de los paquetes enviados para evitar la deteccion por parte del Firewall. Nmap permite a los usuarios especificar manualmente un puerto de origen aleatorio o un puerto especifico para evadir la deteccion del Firewall.
+
+```bash
+nmap -p22 192.168.1.1 --source-port 53 # Este comando abre el puerto 53 de nuestro equipo para comunicarnos con el 22, este comando es util cuando por firewall solo hay puertos especificados desde los que debe venir una solicitud
+
+# Filtros en Wireshark
+tpc.port == 22 # Filtro por puerto
+```
+
+* Decoy (-D): Esta tecnica de evasion en Nmap permite al usuario enviar paquetes falsos a la red para confundir a los sistemas de deteccion de intrusos y evitar la deteccion del Firewall. El comando -D permite al usuario enviar paquetes falsos junto con los paquetes reales de escaneo para ocultar su actividad.
+
+```bash
+nmap -p22 192.168.1.1 -D 192.168.1.20 # Util cuando no queremos que descubra que IP lanzo el reconocimiento, o cuando el firewall tiene a IPs especificas para ver los puertos filtrados como abiertos.
+
+# Filtros en Wireshark
+ip.dst == 192.168.1.1 # En wireshark buscamos los paquetes con ip destino
+```
+
+* Fragmented (-f): Esta tecnica se basa en fragmentar los paquetes enviados para que el Firewall no pueda reconocer el trafico como un escaneo. La opcion -f en Nmap permite fragmentar los paquetes y enviarlos por separado para evitar la deteccion del Firewall.
+
+```bash
+nmap -p22 192.168.1.1 -f
+
+# Filtros en Wireshark
+ip.flags.mf == 1 # Filtrar por paquetes fragmentados
+```
+
+* Spoof-Mac (-spoof-mac): Esta tecnica de evasion se base en cambiar la direccion MAC del paquete para evitar la deteccion del Firewall. Nmap permite al usuario configurar manualmente la direccion MAC para evitar ser detectado por el Firewall.
+
+```bash
+nmap -p22 192.168.1.1 --spoof-mac Dell
+```
+
+* Stealth Scan (-sS): Esta tecnica es una de las mas utilizadas para realizar escaneos sigilosos y evitar la deteccion del Firewall. El comando -sS permite a los usuarios realizar un escaneo de tipo SYN sin establecer una conexion completa, lo que permite evitar la deteccion del Firewall.
+
+SYN > (RST (Closed)) > SYN/ACK > ACK
+SYN > SYN/ACK > RST
+
+```bash
+nmap -p --open -sS --min-rate 5000 -v -n -Pn 192.168.1.1 # Recomendacion savitar
+```
+
+* min-rate(-min-rate): Esta tecnica permite al usuario controlar la velocidad de los paquetes enviados para evitar la deteccion del Firewall. El comando -min-rate permite al usuario reducir la velocidad de los paquetes enviados para evitar ser detectado por el Firewall.
+
+Es importante destacar que, ademas de las tecnicas de evasion mencionadas anteriormente, existen muchas otras opciones en Nmap que pueden ser utilizadas para realizar pruebas de penetracion efectivas y evadir la deteccion del Firewall. Sin embargo, las tecnicas que hemos mencionado son algunas de las mas populares y ampliamente utilizadas por los profesionales de seguridad para superar los obstaculos que presentan los Firewalls en la realizacion de pruebas de penetracion.
+
+### Uso de scripts y categorias en nmap para aplicar reconocimiento
+
+Una de las categorias mas poderosas de Nmap es su capacidad para automatizar tareas utilizando scripts personalizados. Los scripts de Nmap permiten a los profesionales de seguridad automatizar las tareas de reconocimiento y descubrimiento en la red, ademas de obtener informacion valiosa sobre los sistemas y servicios que se estan ejecutando en ellos. El parametro --scrip de Nmap permite al usuario seleccionar un conjunto de scripts para ejecutar en un objetivo de escaneo especifico.
+
+Existen diferentes categorias de scripts disponibles en Nmap, cada una disenada para realizar una tarea especifica. Algunas de las categorias mas comunes incluyen:
+
+* default: Esta es la categoria predeterminada en Nmap, que incluye una gran cantidad de scripts de reconocimiento basicos y utiles para la mayoria de los escaneo.
+
+* discovery: Esta categoria se enfoca en descubrir informacion sobre la red, como la deteccion de hosts y dispositivos activos, y la resolucion de nombres de dominio.
+
+* safe: Esta categoria incluye scripts que son considerados seguros y que no realizan actividades invasivas que puedan desencadenar una alerta de seguridad en la red.
+
+* intrusive: Esta categoria incluye scripts mas invasivos que pueden ser detectados facilmente por un sistema de deteccion de intrusos o un Firewall, pero que pueden proporcionar informacion valiosa sobre vulnerabilidades y debilidades en la red.
+
+* vuln: Esta categoria se enfoca especificamente en la deteccion de vulnerabilidades y debilidades en los sistemas y servicios que se estan ejecutando en la red.
+
+En conclusion, el uso de scripts y categorias en Nmap es una forma efectiva de automatizar tareas de reconocimiento y descubrimiento en la red. El parametro -script permite al usuario seleccionar un conjunto de scripts personalizados para ejecutar en un objetivo de escaneo especifico, mientras que las diferentes categorias disponibles en Nmap se enfocan en realizar tareas especificas para obtener informacion valiosa sobre la red.
+
+```bash
+locate .nse # Para buscar los scripts de nmap
+locate .nse | xargs grep "categories"
+
+nmap -p22 192.168.1.1 -sC # Hace un escaneo con los scripts mas significativos
+nmap -p22 192.168.1.1 -sC -sV # Puede ser compactado como -sCV
+nmap -p22 192.168.1.1 -sCV
+
+nmap -p22 192.168.1.1 --script='vuln and safe' # ejecuta scripts de esa categoria
+nmap -p80 192.168.1.1 --script http-enum #
+```
+
+### Creación de tus propios scripts en Lua para nmap (skip)
+
+Nmap permite a los profesionales de seguridad personalizar y extender sus capacidades mediante la creación de scripts personalizados en el lenguaje de programación Lua. Lua es un lenguaje de scripting simple, flexible y poderoso que es fácil de aprender y de usar para cualquier persona interesada en crear scripts personalizados para Nmap.
+
+Para utilizar Lua como un script personalizado en Nmap, es necesario tener conocimientos básicos del lenguaje de programación Lua y comprender la estructura básica que debe tener el script. La estructura básica de un script de Lua en Nmap incluye la definición de una tabla, que contiene diferentes campos y valores que describen la funcionalidad del script.
+
+Los campos más comunes que se definen en la tabla de un script de Lua en Nmap incluyen:
+
+* description: Este campo se utiliza para proporcionar una descripción corta del script y su funcionalidad.
+* categories: Este campo se utiliza para especificar las categorías a las que pertenece el script, como descubrimiento, explotación, enumeración, etc.
+* author: Este campo se utiliza para identificar al autor del script.
+* license: Este campo se utiliza para especificar los términos de la licencia bajo la cual se distribuye el script.
+* dependencies: Este campo se utiliza para especificar cualquier dependencia de biblioteca o software que requiera el script para funcionar correctamente.
+* actions: Este campo se utiliza para definir la funcionalidad específica del script, como la realización de un escaneo de puertos, la detección de vulnerabilidades, etc.
+
+Una vez que se ha creado un script de Lua personalizado en Nmap, se puede invocar utilizando el parámetro –script y el nombre del archivo del script. Con la creación de scripts personalizados en Lua, es posible personalizar aún más las capacidades de Nmap y obtener información valiosa sobre los sistemas y servicios en la red.
+
+### Alternativas para la enumeracion de puertos usando descriptores de archivo (skip)
+
+La enumeración de puertos es una tarea crucial en las pruebas de penetración y seguridad de redes. Tal y como hemos visto, Nmap es una herramienta de línea de comandos ampliamente utilizada para esta tarea, pero existen alternativas para realizar la enumeración de puertos de manera efectiva sin utilizar herramientas externas.
+
+Una alternativa a la enumeración de puertos utilizando herramientas externas es aprovechar el poder de los descriptores de archivos en sistemas Unix. Los descriptores de archivo son una forma de acceder y manipular archivos y dispositivos en sistemas Unix. En particular, la utilizacion de /dev/tcp permite la conexion a un host y puerto específicos como si se tratra de un archivo en el sistema.
+
+Para realizar la enumeración de puertos utilizando /dev/tcp en Bash, es posible crear un script que realice una conexión a cada puerto de interés y compruebe si el puerto está abierto o cerrado en función de si se puede enviar o recibir datos. Una forma de hacer esto es mediante el uso de comandos como "echo" o "cat", aplicando redireccionamiento al /dev/tcp. El código de estado devuelto por el comando se puede utilzar para determinar si el puerto está abierto o cerrado.
+
+Aunque esta alternativa puede ser menos precisa y más lenta que el uso de herramientas especializadas como Nmap, es una opcion interesante y viable para aquellos que buscan una solución rápida y sencilla para la enumeración de puertos en sistemas Unix. Además, este enfoque puede proporcionar una mejor comprensión de cómo funcionan los descriptores de archivos en los sistemas Unix y cómo se pueden utilizar para realizar tareas de red.
+
+### Descubrimiento de equipos en la red local (ARP e ICMP) y tips
+
+El descubrimiento de equipos en la red local es una tarea fundamental en la gestión de redes y en las pruebas de seguridad. Existen diferentes herramientas y técnicas para realizar esta tarea, que van desde el escaneo de puertos hasta el análisis de tráfico de red.
+
+En esta clase, nos enfocaremos en las técnicas de descubrimiento de equipos basadas en los protocolos ARP e ICMP. Además, se presentarán diferentes herramientas que pueden ser útiles para esta tarea, como Nmap, netdiscover, arp-scan y masscan.
+
+Entre los modos de escaneo que se explican en la clase, se encuentran el uso del parámetro '-sn' de Nmap, que permite realizar un escaneo de hosts sin realizar el escaneo de puertos. También se presentan las herramientas netdiscover, arp-scan, que utilizan el protocolo ARP para descubrir hosts en la red.
+
+Cada herramienta tiene sus propias ventajas y limitaciones. Por ejemplo, netdiscover es una herramienta simple y fácil de usar, pero puede ser menos precisa que arp-scan o masscan. Por otro lado, arp-scan y masscan son herramientas más potentes, capaces de descubrir hosts más rápido y en redes más grandes, pero también son más complejas y pueden requerir más recursos.
+
+En definitiva, el descubrimiento de equipos en la red local es una tarea fundamental para cualquier administrador de redes o profesional de seguridad de la información. Con las técnicas y herramientas adecuadas, es posible realizar esta tarea de manera efectiva y eficiente.
+
+```bash
+hostname -I
+ifconfig
+
+namp -sn 192.168.0.0/24 # Investigamos por pingswip nos reporta que equipos estan activos como clientes
+
+arp-scan -I ens33 --localnet # Nos reporta que equipos estan activos tambien, nos reporta duplicados
+
+arp-scan -I ens33 --localnet --ignoredups # Ignora duplicados
+
+ping -c 1 192.168.0.5
+
+timeout 1 bash -c "ping -c 1 192.168.0.1" &>/dev/null # Si la ip no existe solo tardará un segundo en ejecutar el comando
+
+echo $? # Nos devuelve el codigo de estado del comando anterior ejecutado, 0 es exitoso !0 es un error
+
+timeout 1 bash -c "ping -c 1 192.168.0.1" &>/dev/null && echo "[+] El host está activo"
+```
+
+Creamos script para hacer un escaner de hosts activos en la red
+
+hostDiscovery.sh
+
+```bash
+#!/bin/bash
+
+function ctrl_c(){
+    echo -e "\n\n [!] Saliendo...\n"
+    tput cnorm; exit 1
+}
+
+tput civis
+
+# Ctrl + C
+trap ctrl_c SIGINT
+
+for i in $(seq 1 254); do
+    timeout 1 bash -c "ping -c 1 192.168.0.$i" &>/dev/null && echo "[+] Host 192.168.0.$i -ACTIVE" &
+done
+
+wait
+
+tput cnorm
+```
+
+hostDiscovery.sh contemplando que no hay ICMP
+
+```bash
+#!/bin/bash
+
+function ctrl_c(){
+    echo -e "\n\n [!] Saliendo...\n"
+    tput cnorm; exit 1
+}
+
+tput civis
+
+# Ctrl + C
+trap ctrl_c SIGINT
+
+for i in $(seq 1 254); do
+
+    for port in 21 22 23 25 80 139 443 445 8080; do
+    
+        timeout 1 bash -c "echo '' > /dev/tcp/192.168.0.$i/$port" &>/dev/null && echo "[+] Host 192.168.0.$i - Port $port (OPEN)" &
+    done
+done
+
+wait
+
+tput cnorm
+```
