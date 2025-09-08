@@ -549,3 +549,43 @@ tput cnorm
 
 #tester
 ```
+
+### Validación del objetivo (Fijando un target en HackerOne)
+
+En esta clase exploraremos la plataforma HackerOne, una plataforma de BugBounty que permite a empresas y organizaciones que desean ser auditadas, "Conectar" con hackers éticos para encontrar vulnerabilidades de seguridad en sus sistemas y aplicaciones de forma legal.
+
+Antes de iniciar una auditoría en esta plataforma, es fundamental fijar un objetivo claro, además de definir el alcance de la auditoría. Esto se logra a través del concepto de "Scope", que establece los límites de la auditoría, así como los sistemas y aplicaciones que pueden ser auditados.
+
+En esta clase, se explicará cómo validar un objetivo en HackerOne y cómo definir el alcance de la auditoría a través del Scope. Además, se discutirán los impedimentos y limitaciones que se pueden encontrar durante la fase de auditoría, evitando así posibles malentendidos durante el proceso de reporte de vulnerabilidades.
+
+[Enlace a la web de HackerOne](https://www.hackerone.com/)
+
+### Descubrimiento de correos electrónicos
+
+En esta clase exploraremos la importancia de la recolección de información en la fase de OSINT durante una auditoría, en particular, la recolección de correos electrónicos. Los correos electrónicos pueden ser una valiosa fuente de información para la vulneración de posibles paneles de autenticación y la realización de campañas de Phishing.
+
+Durante la clase se presentan diferentes herramientas online que pueden ayudar en este proceso. Por ejemplo, se explica cómo usar 'hunter.io' para buscar correos electrónicos asociados a un dominio en particular. También se muestra cómo utilizar 'intelx.io' para buscar información relacionada con direcciones de correo electrónico, nombres de usuarios y otros detalles.
+
+Otra herramienta interesante que se presenta en la clase es 'phonebook.cz', que permite buscar correos electrónicos y otros datos de contacto relacionados con empresas de todo el mundo.
+
+Finalmente, se habla sobre el plugin 'Clearbit Connect' para Gmail, que permite obtener información de contacto en tiempo real y añadirla directamente a los contactos de Gmail.
+
+A continuación, se proporcionan los enlaces a las herramientas online vistas en esta clase:
+
+[Hunter](https://hunter.io/)
+
+[Intelligence X](https://intelx.io/)
+
+[Phonebook.cz](https://phonebook.cz/)
+
+[Clearbit Connect](https://hunter.io/)
+
+En conclusión, la recolección de correos electrónicos es una tarea importante en la fase inicial de OSINT y puede proporcionar información valiosa. Sin embargo, es importante tener en cuenta que la recolección de correos electrónicos por sí sola no permite identificar directamente posibles vulnerabilidades en una red o sistema.
+
+Validadores de correos existentes
+
+[Email checker](https://email-checker.net/check)
+
+[Verify email address](https://www.verifyemailaddress.org/)
+
+COMO ATACANTE TU DEBES OBSESIONARTE CON LAS VICTIMAS, INVESTIGAR CUENTAS, DONDE ESTAN PARA CORRELACIONAR DATOS, PARA SABER QUE PUNTOS DE CONEXION PUEDEN UNIRSE
