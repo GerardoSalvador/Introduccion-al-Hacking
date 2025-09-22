@@ -890,8 +890,6 @@ docker ps
 
 ### Definiendo la estructura básica de Dockerfile
 
-
-
 Un archivo Dockerfile se compone de varias secciones, cada una de las cuales comienza con una palabra clave en mayúsculas, seguida de uno o más argumentos.
 
 Algunas de las secciones más comunes en un archivo Dockerfile son:
@@ -1086,8 +1084,6 @@ docker rmi $(doker images -q)
 
 ### Port Forwarding en Docker y uso de monturas
 
-
-
 El port forwarding, también conocido como reenvío de puertos, nos permite redirigir el tráfico de red desde un puerto específico en el host a un puerto específico en el contenedor. Esto nos permitirá acceder a los servicios que se ejecutan dentro del contenedor desde el exterior.
 
 Para utilizar el port forwarding, se utiliza la opción “-p” o “–publish” en el comando “docker run“. Esta opción se utiliza para especificar la redirección de puertos y se puede utilizar de varias maneras. Por ejemplo, si se desea redirigir el puerto 80 del host al puerto 8080 del contenedor, se puede utilizar la siguiente sintaxis:
@@ -1184,7 +1180,7 @@ docker port myWebServer
 
 AVISO: En caso de que veáis que no estáis pudiendo instalar ‘nano‘ o alguna utilidad en el contenedor, eliminad todo el contenido del archivo ‘/etc/apt/sources.list‘ existente en el CONTENEDOR y metedle esta línea:
 
-* deb http://archive.debian.org/debian/ jessie contrib main non-free
+deb http://archive.debian.org/debian/ jessie contrib main non-free
 
 Posteriormente, haced un ‘apt update‘ y probad a instalar nuevamente la herramienta que queráis, ya no os debería de dar problemas.
 
