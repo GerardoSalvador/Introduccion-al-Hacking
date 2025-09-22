@@ -750,7 +750,6 @@ A pesar de que la Community Edition no ofrece todas las funcionalidades y ventaj
 
 BurpSuite Proffessional es la versión de pago desarrollada por la empresa PortSwigger. Incluye, además del prox  y HTTP, algunas herramientas de pentesting web como:
 
-
 * Escáner de seguridad automatizado: Permite identificar vulnerabilidades en aplicaciones web de manera rápida y eficiente, lo que ahorra tiempo y esfuerzo.
 * Integración con otras herramientas: Puede integrarse con otras soluciones de seguridad y entornos de desarrollo para mejorar la eficacia de las pruebas.
 * Extensibilidad: A través de su API, BurpSuite Professional permite a los usuarios crear y añadir extensiones personalizadas para adaptarse a necesidades específicas.
