@@ -1200,9 +1200,15 @@ Asimismo, por aquí os compartimos el enlace al recurso donde se nos ofrece el s
 git clone https://github.com/vulhub/vulhub/tree/master/kibana/CVE-2018-17246 # Me dará error cambiar por
 
 svn checkout https://github.com/vulhub/vulhub/trunk/kibana/CVE-2018-17246
+
+docker-compose up -d
 ```
 
 ### Despliegue de máquinas virtuales vulnerables con Docker-Compose(2/2)
+
+A continuación, os compartimos el enlace del proyecto correspondiente a la vulnerabilidad de ImageMagick (ImageTragick) que tocamos en esta clase:
+
+[Proyecto de Github](https://github.com/vulhub/vulhub/tree/master/imagemagick/imagetragick)
 
 ### Cuestionario de Docker
 
