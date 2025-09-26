@@ -1216,6 +1216,101 @@ Agregar preguntas con sus respuestas
 
 ## Enumeración de sevicios comunes y gestores de contenido
 
+```bash
+
+#!/bin/bash
+#Colours
+
+greenColour="\e[0;32m\033[1m"
+endColour="\033[0m\e[0m"
+redColour="\e[0;31m\033[1m"
+blueColour="\e[0;34m\033[1m"
+yellowColour="\e[0;33m\033[1m"
+purpleColour="\e[0;35m\033[1m"
+turquoiseColour="\e[0;36m\033[1m"
+grayColour="\e[0;37m\033[1m"
+
+ttl=$(ping $1 -c 1 | grep 'ttl=' | awk '{print $3}' FS='=' | awk '{print $1}' FS=' ')
+
+clear
+
+echo -e "${greenColour}[-------------------------------]${endColour}\n${blueColour}IP \t->${endColour} ${redColour}$1${endColour}\n${blueColour}TTL \t->${endColour} ${redColour}$ttl ${endColour}"
+
+if [ $ttl -eq 30 ]; then
+    echo -e "\tOS -> AIX"
+    echo -e "\tOS -> DEC Pathworks"
+    echo -e "\tOS -> HP-UX"
+    echo -e "\tOS -> OSF/1"
+    echo -e "\tOS -> Stratus"
+    echo -e "\tOS -> Ultrix"
+    echo -e "\tOS -> VMS/Wollongo ng"
+fi
+
+if [ $ttl -eq 32 ]; then
+    echo -e "\tOS -> Windows"
+fi
+
+if [ $ttl -eq 60 ]; then
+    echo -e "\tOS -> AIX"
+    echo -e "\tOS -> Irix"
+    echo -e "\tOS -> MacOS/MacTCP"
+    echo -e "\tOS -> OSF/1"
+    echo -e "\tOS -> Stratus"
+    echo -e "\tOS -> SunOS"
+    echo -e "\tOS -> Ultrix"
+    echo -e "\tOS -> VMS/TCPware"
+fi
+
+if [ $ttl -eq 64 ]; then
+    echo -e "\tOS -> Compa"
+    echo -e "\tOS -> Foundry"
+    echo -e "\tOS -> FreeBSD"
+    echo -e "\tOS -> HP-UX"
+    echo -e "\tOS -> Juniper"
+    echo -e "\tOS -> Linux"
+    echo -e "\tOS -> MacOS/MacTCP"
+    echo -e "\tOS -> Netgear FVG318"
+    echo -e "\tOS -> OS/2"
+    echo -e "\tOS -> Solaris"
+    echo -e "\tOS -> Stratus"
+    echo -e "\tOS -> VMS/Multinet"
+    echo -e "\tOS -> VMS/TCPware"
+fi
+
+if [ $ttl -eq 128 ]; then
+    echo -e "\tOS -> VMS/Wollongo ng"
+    echo -e "\tOS -> VMS/UCX"
+    echo -e "\tOS -> Windows"
+fi
+
+if [ $ttl -eq 200 ]; then
+    echo -e "\tOS -> MPE/IX (HP)"
+fi
+
+if [ $ttl -eq 254 ]; then
+    echo -e "\tOS -> Cisco"
+fi
+
+if [ $ttl -eq 255 ]; then
+    echo -e "\tOS -> AIX"
+    echo -e "\tOS -> BSDI"
+    echo -e "\tOS -> FreeBSD"
+    echo -e "\tOS -> HP-UX"
+    echo -e "\tOS -> Irix"
+    echo -e "\tOS -> Linux"
+    echo -e "\tOS -> NetBSD"
+    echo -e "\tOS -> OpenBSD"
+    echo -e "\tOS -> OpenVMS"
+    echo -e "\tOS -> Solaris"
+    echo -e "\tOS -> Stratus"
+    echo -e "\tOS -> SunOS"
+    echo -e "\tOS -> Ultrix"
+fi
+
+echo -e "${greenColour}[-------------------------------]${endColour}\n\n"
+
+```
+
 ### Enumeración del servicio FTP
 
 En esta clase, hablaremos sobre el protocolo de transferencia de archivos (FTP) y cómo aplicar reconocimiento sobre este para recopilar información.
@@ -1225,6 +1320,23 @@ FTP es un protocolo ampliamente utilizado para la transferencia de archivos en r
 A continuación, se os proporciona el enlace al primer proyecto que tocamos en esta clase:
 
 [Docker-FTP-Server](https://github.com/garethflowers/docker-ftp-server)
+
+```bash
+# FILE ftp_server
+docker run \
+    --detach \
+    --env FTP_PASS=iloveyou \
+    --env FTP_USER=gerry \
+    --env PUBLIC_IP=192.168.0.1 \
+    --name my-ftp-server \
+    --publish 20-21:20-21/tcp \
+    --publish 40000-40009:40000-40009/tcp \
+    --volume /data:/home/user \
+    garethflowers/ftp-server
+
+#Hemos vulnerado esta máquina usando fuerza bruta con Hydra
+> hydra -l gerry -P pass.txt ftp://127.0.0.1 -t 10
+```
 
 Una de las herramientas que usamos en esta clase para el primer proyecto que nos descargamos es ‘Hydra‘. Hydra es una herramienta de pruebas de penetración de código abierto que se utiliza para realizar ataques de fuerza bruta contra sistemas y servicios protegidos por contraseña. La herramienta es altamente personalizable y admite una amplia gama de protocolos de red, como HTTP, FTP, SSH, Telnet, SMTP, entre otros.
 
