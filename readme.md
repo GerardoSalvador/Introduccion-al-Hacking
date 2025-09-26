@@ -1381,6 +1381,24 @@ ftp>
 
 ```
 
+```bash
+# Para cerrar los contenedores creados
+
+docker ps
+# Obtenemos solo los identificadores
+docker ps -a -q
+# Para borrar todos los contenedores abiertos usamos
+docker rm $(docker ps -a -q) --force
+# Volvemos a listar con docker ps y vemos que no hay contenedores en ejecución ya
+
+# Listamos imagenes creadas
+docker images
+# Para borrar las imagenes creadas, vemos el identificador
+docker rmi 48f8914e001b
+# Listamos imagenes nuevamente y observamos que una imagen ha sido eliminada
+
+```
+
 ### Enumeración del servicio SSH
 
 En esta clase, exploraremos el protocolo SSH (Secure Shell) y cómo realizar reconocimiento para recopilar información sobre los sistemas que ejecutan este servicio.
