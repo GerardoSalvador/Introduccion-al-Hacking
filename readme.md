@@ -1379,7 +1379,6 @@ Remote system type is UNIX.
 Using binary mode to transfer files.
 ftp> 
 
-
 ```
 
 ### Enumeración del servicio SSH
