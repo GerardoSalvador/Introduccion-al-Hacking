@@ -1411,6 +1411,24 @@ A continuación, se os proporciona el enlace directo a la web donde copiamos tod
 
 [Docker Hub OpenSSH-Sever](https://hub.docker.com/r/linuxserver/openssh-server)
 
+```bash
+docker run -d \
+  --name=openssh-server \
+  --hostname=gerard-host \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=Etc/UTC \
+  -e PASSWORD_ACCESS=true \
+  -e USER_PASSWORD=iloveyou \
+  -e USER_NAME=gerardo \
+  -e LOG_STDOUT= `#optional` \
+  -p 2222:2222 \
+  -v /path/to/openssh-server/config:/config \
+  --restart unless-stopped \
+  lscr.io/linuxserver/openssh-server:latest
+
+```
+
 Cabe destacar que a través de la versión de SSH, también podemos identificar el codename de la distribución que se está ejecutando en el sistema.
 
 Por ejemplo, si la versión del servidor SSH es "OpenSSH 8.2p1 Ubuntu 4ubuntu0.5", podemos determinar que el sistema está ejecutando una distribución de Ubuntu. El número de versión "4buntu0.5" se refiere a la revisión específica del paquete de SSH en esa distribución de Ubuntu. A partir de esto, podemos identificar el **codename** de la distribución de Ubuntu, que en este caso sería "Focal" para Ubuntu 20.04.
