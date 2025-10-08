@@ -1717,3 +1717,117 @@ El archivo xmlrpc.php es utilizado por muchos plugins y aplicaciones móviles de
 Sin embargo, este archivo también puede ser abusado por atacantes malintencionados para aplicar fuerza bruta y descubrir credenciales válidas de los usuarios del sitio. Esto se debe a que xmlrpc.php permite a los atacantes realizar un número ilimitado de solicitudes de inicio de sesión sin ser bloqueados, lo que hace que la ejecución de un ataque de fuerza bruta sea relativamente sencilla.
 
 En la siguiente clase estaremos desarrollando un script en Bash desde cero para realizar este tipo de ataques.
+
+### Enumeración de gestores de contenido (CMS) – WordPress (2/2)
+
+En esta clase, veremos cómo abusar del archivo xmlrpc.php para mediante la creación de un script de Bash aplicar fuerza bruta. El objetivo de este ejercicio será demostrar cómo los atacantes pueden utilizar este archivo existente en WordPress para intentar descubrir credenciales válidas y comprometer la seguridad del sitio web.
+
+Para lograrlo, crearemos un script de Bash en el cual emplearemos la herramienta cURL para enviar solicitudes XML-RPC al archivo xmlrpc.php del sitio web WordPress. A través del método wp.getUsersBlogs, enviaremos una estructura XML que contendrá el nombre de usuario y la contraseña a probar.
+
+En caso de que las credenciales no sean correctas, el servidor responderá con un mensaje de error que indica que las credenciales son incorrectas. Sin embargo, si las credenciales son válidas, la respuesta del servidor será diferente y no incluirá el mensaje de error.
+
+De esta forma, podremos utilizar la respuesta del servidor para determinar cuándo hemos encontrado credenciales válidas y, de esta forma, tener acceso al sitio web de WordPress comprometido.
+
+Cabe destacar que el método wp.getUsersBlogs no es el único método existente, ni mucho menos la única vulnerabilidad en xmlrpc.php. Existen otros métodos como wp.getUsers, wp.getAuthors o wp.getComments, entre otros, que también pueden ser utilizados por atacantes para realizar ataques de fuerza bruta y comprometer la seguridad del sitio web de WordPress.
+
+Por lo tanto, es importante tener en cuenta que la seguridad de un sitio web de WordPress no solo depende de tener contraseñas seguras y actualizadas, sino también de estar atentos a posibles vulnerabilidades en el archivo xmlrpc.php y otras áreas del sitio web.
+
+### Enumeración de gestores de contenido (CMS) – Joomla
+
+AVISO: Han actualizado el proyecto de Github, ahora simplemente lo despliegas con ‘docker-compose up -d‘ y no hace falta realizar el proceso de instalación, ya te viene todo instalado por defecto 😊
+
+En esta clase, estaremos viendo cómo enumerar el gestor de contenido Joomla. Joomla es un sistema de gestión de contenidos (CMS) de código abierto que se utiliza para crear sitios web y aplicaciones en línea. Joomla es muy popular debido a su facilidad de uso y flexibilidad, lo que lo hace una opción popular para sitios web empresariales, gubernamentales y de organizaciones sin fines de lucro.
+
+Joomla es altamente personalizable y cuenta con una gran cantidad de extensiones disponibles, lo que permite a los usuarios añadir funcionalidades adicionales a sus sitios web sin necesidad de conocimientos de programación avanzados. Joomla también cuenta con una comunidad activa de desarrolladores y usuarios que comparten sus conocimientos y recursos para mejorar el CMS.
+
+A continuación, se comparte el enlace del proyecto que estaremos desplegando en Docker para auditar un Joomla:
+
+[CVE-2015-8562](https://github.com/vulhub/vulhub/tree/master/joomla/CVE-2015-8562)
+
+Una de las herramientas que usamos en esta clase es Joomscan. Joomscan es una herramienta de línea de comandos diseñada específicamente para escanear sitios web que utilizan Joomla y buscar posibles vulnerabilidades y debilidades de seguridad.
+
+Joomscan utiliza una variedad de técnicas de enumeración para identificar información sobre el sitio web de Joomla, como la versión de Joomla utilizada, los plugins y módulos instalados y los usuarios registrados en el sitio. También utiliza una base de datos de vulnerabilidades conocidas para buscar posibles vulnerabilidades en la instalación de Joomla.
+
+Para utilizar Joomscan, primero debemos descargar la herramienta desde su sitio web oficial. A continuación se os proporciona el enlace al proyecto:
+
+[Joomscan](https://github.com/OWASP/joomscan)
+
+Una vez descargado, podemos utilizar la siguiente sintaxis básica para escanear un sitio web de Joomla:
+
+```bash
+perl joomscan.pl -u <URL>
+```
+
+Donde URL es la URL del sitio web que deseamos escanear. Joomscan escaneará el sitio web y nos proporcionará una lista detallada de posibles vulnerabilidades y debilidades de seguridad.
+
+Es importante tener en cuenta que joomscan no es una herramienta infalible y puede generar falsos positivos o falsos negativos. Por lo tanto, es importante utilizar joomscan junto con otras herramientas y técnicas de seguridad para tener una imagen completa de la seguridad del sitio web de Joomla que estemos auditando.
+
+### Enumeración de gestores de contenido (CMS) – Drupal
+
+En esta clase, aprenderemos a enumerar el gestor de contenidos Drupal. Drupal es un sistema de gestión de contenido libre y de código abierto (CMS) utilizado para la creación de sitios web y aplicaciones web.
+
+Drupal ofrece un alto grado de personalización y escalabilidad, lo que lo convierte en una opción popular para sitios web complejos y grandes. Drupal se utiliza en una amplia gama de sitios web, desde blogs personales hasta sitios web gubernamentales y empresariales. Es altamente flexible y cuenta con una amplia variedad de módulos y herramientas que permiten a los usuarios personalizar su sitio web para satisfacer sus necesidades específicas.
+
+Una de las herramientas que veremos en esta clase para enumerar un Drupal es la herramienta droopescan. Droopescan es una herramienta de escaneo de seguridad especializada en la identificación de versiones de Drupal y sus módulos, y en la detección de vulnerabilidades conocidas en ellos. La herramienta realiza un escaneo exhaustivo del sitio web para encontrar versiones de Drupal instaladas, módulos activos y vulnerabilidades conocidas, lo que ayuda a los administradores de sistemas y desarrolladores a identificar y solucionar los problemas de seguridad en sus sitios web.
+
+Con esta herramienta, se pueden llevar a cabo análisis de seguridad en sitios web basados en Drupal, lo que puede ayudar a prevenir posibles ataques y problemas de seguridad en el futuro.
+
+A continuación, es proporciona el enlace directo al proyecto en Github:
+
+[Droopescan](https://github.com/SamJoan/droopescan)
+
+Su uso es bastante intuitivo, a continuación se comparte un ejemplo de uso de esta herramienta:
+
+```bash
+droopescan scan drupal --url https://example.com
+```
+
+Donde “scan” indica que queremos realizar un escaneo, “drupal” especifica que estamos realizando un escaneo de Drupal y “–url https://example.com” indica la URL del sitio web que se va a escanear.
+
+Asimismo, os compartimos a continuación el enlace al proyecto de Github correspondiente al laboratorio que estaremos desplegando en Docker:
+
+[CVE-2018-7600](https://github.com/vulhub/vulhub/tree/master/drupal/CVE-2018-7600)
+
+### Enumeración de gestores de contenido (CMS) – Magento
+
+En esta clase, veremos cómo enumerar el gestor de contenido Magento. Magento es una plataforma de comercio electrónico de código abierto, que se utiliza para construir tiendas en línea de alta calidad y escalables. Es una de las plataformas más populares para el comercio electrónico y es utilizado por grandes marcas como Nike, Coca-Cola y Ford.
+
+Sin embargo, con la popularidad de Magento también ha surgido la preocupación por la seguridad. Una de las herramientas que veremos en esta clase es Magescan, una herramienta de escaneo de vulnerabilidades específica para Magento.
+
+Magescan puede detectar vulnerabilidades comunes en Magento, incluyendo problemas con permisos de archivos, errores de configuración y vulnerabilidades conocidas en extensiones populares de Magento.
+
+A continuación se proporciona el enlace directo al proyecto en Github:
+
+[Magescan](https://github.com/steverobbins/magescan)
+
+Su sintaxis y modo de uso es bastante sencillo, a continuación se comparte un ejemplo:
+
+```bash
+php magescan.phar scan:all https://example.com
+```
+
+Donde “magescan.phar” es el archivo ejecutable de la herramienta “Magescan“, “scan:all” es el comando específico de Magescan que indica que se realizará un escaneo exhaustivo de todas las vulnerabilidades conocidas en el sitio web objetivo y URL-ELIMINADA-POR-PROBLEMAS-CON-MD es la URL del sitio web objetivo que se escaneará en busca de vulnerabilidades.
+
+Asimismo, se comparte el enlace al laboratorio que estaremos desplegando en Docker para configurar el Magento vulnerable:
+
+[Magento 2.2 SQL Injection](https://github.com/vulhub/vulhub/tree/master/magento/2.2-sqli)
+
+Una de las técnicas que explotaremos sobre este gestor de contenidos es la famosa SQL Injection. Esta vulnerabilidad se produce cuando los datos de entrada no son debidamente validados y se pueden insertar comandos SQL maliciosos en la consulta a la base de datos.
+
+Un ataque de inyección SQL exitoso puede permitir al atacante obtener información confidencial, como credenciales de usuario o datos de pago, o incluso ejecutar comandos en la base de datos del sitio web.
+
+En el caso del Magento que estaremos desplegando, explotaremos una inyección SQL con el objetivo de obtener una cookie de sesión, la cual podremos posteriormente utilizar para llevar a cabo un ataque de “Cookie Hijacking“. Este tipo de ataque nos permitirá como atacantes asumir la identidad del usuario legítimo y acceder a las funciones del usuario, que en este caso será administrador.
+
+### Toma de apuntes con Obsidian
+
+En esta clase, aprenderás a usar Obsidian, un potente software de gestión de conocimiento personal. Obsidian es una herramienta diseñada para ayudarte a organizar y conectar toda tu información en un solo lugar, lo que te permite crear y mantener una base de conocimiento personal cohesiva y accesible.
+
+Obsidian utiliza un enfoque de vinculación de notas para conectar tus ideas, pensamientos y conceptos, permitiéndote construir una red de conocimiento sólida y fácil de navegar. Puedes crear enlaces entre notas para establecer conexiones y descubrir nuevas relaciones y patrones en tus pensamientos y conocimientos.
+
+Además, Obsidian es altamente personalizable, lo que significa que puedes adaptar su configuración y características a tus necesidades específicas. Puedes utilizarlo para gestionar tus notas, listas de tareas, proyectos, metas e incluso tu diario personal.
+
+Con Obsidian, puedes dejar atrás las complicadas carpetas y sistemas de archivos y tener todo lo que necesitas en una sola aplicación. Es una herramienta extremadamente útil y cómoda que te ayudará a ser más eficiente y efectivo en la gestión de tu información personal y profesional.
+
+A continuación, se os proporciona el enlace de descarga a esta utilidad:
+
+[Obsidian](https://obsidian.md/download)
