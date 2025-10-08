@@ -1558,3 +1558,162 @@ Por ejemplo, Heartbleed es una vulnerabilidad de seguridad que afecta a la bibli
 A continuación, se proporciona el enlace al proyecto de GitHub donde desplegamos el laboratorio vulnerable a Heartbleed:
 
 [CVE-2014-0160](https://github.com/vulhub/vulhub/tree/master/openssl/CVE-2014-0160)
+
+Savitar comenta que la enumeracion de http y https tenemos herramientas ya usadas como:
+
+* whatweb
+* wfuzz
+* fuff
+* gobuster
+* dirb
+* dirbuster
+* dirsearch
+
+Lo primero que hace en la pagina de tinder es ver el candado, lo pincha, le da a conexion segura, mas informacion, view certificate.
+
+Revisa el certificado en el apartado Common Name, checa si tiene subdominios
+
+Revisa el Log Id y el nombre, comenta que el Let's encrypt, el cual te habilita gratuitamente el candado verde para que parezca segura, pero es un error de seguridad
+
+Empieza a usar herramientas de cli
+
+```bash
+openssl s_client -connect tinder.com:443 # Revisa la información mostrada, es otra forma de inspeccionar el certificado
+
+sslyze tinder.com # Analizamos el certificado tambien
+
+sslscan tinder.com # Nos muestra los protocolos habilitados y las vulnerabilidades que podría presentar
+```
+
+EJERCICIO
+
+Nos vamos al enlace de vulhub
+
+```bash
+#Nos clonamos el repositorio
+svn checkout https://github.com/vulhub/vulhub/trunk/openssl/CVE-2014-0160
+cd E
+
+```
+
+### Enumeración del servicio SMB
+
+SMB significa Server Message Block, es un protocolo de comunicación de red utilizado para compartir archivos, impresoras y otros recursos entre dispositivos de red. Es un protocolo propietario de Microsoft que se utiliza en sistemas operativos Windows.
+
+Samba, por otro lado, es una implementación libre y de código abierto del protocolo SMB, que se utiliza principalmente en sistemas operativos basados en Unix y Linux. Samba proporciona una manera de compartir archivos y recursos entre dispositivos de red que ejecutan sistemas operativos diferentes, como Windows y Linux
+
+Aunque SMB y Samba comparten una funcionalidad similar, existen algunas diferencias notables. SMB es un protocolo propietario de Microsoft, mientras que Samba es un proyecto de software libre y de código abierto. Además, SMB es una implementación más completa y compleja del protocolo, mientras que Samba es una implementación más ligera y limitada.
+
+A continuación, se os comparte el enlace correspondiente al proyecto de Github que utilizamos para desplegar un laboratorio de práctica con el que poder enumerar y explotar el servicio Samba:
+
+[Samba Authenticated RCE](https://github.com/vulhub/vulhub/tree/master/samba/CVE-2017-7494)
+
+Una de las herramientas que utilizamos para la fase de reconocimiento es 'smbmap'. Smbmap es una herramienta de línea de comandos utilizada para enumerar recursos compartidos y permisos en un servidor SMB (Server Message Bloc) o Samba. Es una herramienta muy útil para la enumeración de redes y para la identificación de posibles vulnerabilidades de seguridad.
+
+Con smbmap, puedes enumerar los recursos compartidos en un servidor SMB y obtener información detallada sobre cada recurso, como los permisos de acceso, los usuario y grupos autorizados, y los archivos y carpetas compartidos. También puedes utilizar smbmap para identificar recursos compartidos que no requieren autenticación, lo que puede ser un problema de seguridad.
+
+Además, smbmap permite a los administradores de sistemas y a los auditores de seguridad verificar rápidamente la configuración de permisos en los recursos compartidos en un servidor SMB, lo que puede ayudar a identificar posibles vulnerabilidades de seguridad y a tomar medidas para remediarlas.
+
+A continuación, se proporciona una breve descripción de algunos de los parámetros comunes de smbmap:
+
+* -H: Este parámetro se utiliza para especificar la dirección IP o el nombre de host del servidor SMB al que se quiere conectar.
+* -P: Este parámetro se utiliza para especificar el puerto TCP utilizado para la conexión SMB. El puerto predeterminado para SMB es el 445, pero si el servidor SMB está configurado para utilizar un puerto diferente, este parámetro debe ser utilizado para especificar el puerto correcto.
+* -u: Este parámetro se utiliza para especificar el nombre de usuario para la conexión SMB.
+* -p: Este parámetro se utiliza para especificar la contraseña para la conexión SMB.
+* -s: Este parámetro se utiliza para especificar el recurso compartido específico que se quiere enumerar. Si no se especifica, smbmap intentará enumerar todos los recursos compartidos en el servidor SMB.
+
+Asimismo, otra de las herramientas que se ven en esta clase es 'smbclient'. Smbclient es otra herramienta de línea de comandos utilizada para interactuar con servidores SMB y Samba, pero a diferencia de smbmap que se utiliza principalmente para enumeración, smbclient proporciona una interfaz de línea de comandos para interactuar con los recursos compartidos SMB y Samba, lo que permite la descarga y subida de archivos, la ejecución de comandos remotos, la navegación por el sistema de archivos remoto, entre otras funcionalidades.
+
+En cuanto a los parámentros más comunes de smbclient, algunos de ellos son:
+
+* -L: Este parámetro se utiliza para enumerar los recursos compartidos disponibles en el servidor SMB o Samba.
+* -U: Este parámetro se utiliza para especificar el nombre de usuario y la contraseña utilizados para la autenticación con el servidor SMB o Samba.
+* -c: Este parámetro se utiliza para especificar un comando que se ejecutará en el servidor SMB o Samba.
+
+Estos son algunso de los parámetros más comunes utilizados en smbcliente, aunque hay otros disponibles. La lista completa de parámetros y sus descripciones se pueden encontrar en la documentación oficial de la herramienta.
+
+Por último, otra de las herramientas que utilizamos al final de la clase para enumerar Samba es 'Crackmapexec'. Crackmapexec (también conocido como CME) es una herramienta de prueba de penetración de línea de comandos que se utiliza para realizar auditorías de seguridad en entornos de Active Directory. CME se basa en las bibliotecas de Python 'impacket' y es compatible con sistemas operativos Windows, Linux y MacOS.
+
+CME puede utilizarse para realizar diversas tareas de auditoría en entornos de Active Directory, como enumerar usuarios y grupos, buscar contraseñas débiles, detectar sistemas vulnerables y buscar vectores de ataque. Ademas, CME también puede utilizarse para ejectar ataques de diccionario de contraseñas, ataques de Pass-the-Hash y para explotar vulnerabilidades conocidas en sistemas Windows. Asimismo, cuenta con una amplia variedad de módulos y opciones de configuración, lo que la convierte en una herramienta muy flexible para la auditoría de seguridad de entornos de Active Directory. La herramienta permite automatizar muchas de las tareas de auditoría comunes, lo que ahorra tiempo y aumenta la eficiencia del proceso de auditoría.
+
+A continuación, os compartimos el enlace directo a la Wiki para que podáis instalar la herramienta:
+
+[CrackMapExec](https://wiki.porchetta.industries/getting-started/installation/installation-on-unix)
+
+```bash
+svn checkout https://github.com/vulhub/vulhub/trunk/master/samba/CVE-2017-7494
+
+cd CVE
+
+docker-compose up -d
+
+docker ps
+
+smbclient -L 127.0.0.1 -N
+
+# Nos arroja por consola poca información
+
+smbmap -H 127.0.0.1
+
+# Nos arroja mas detalle
+
+smbclient //127.0.0.1/myshare -N
+dir
+get
+put
+
+apt install cifs-utils
+
+mkdir /mnt/mounted
+
+mount -t cifs //127.0.0.1/myshare /mnt/mounted # Cuidado al realizar esto porque si borras lo del mnt puedes borrar lo del servidor real
+
+umount /mnt/mounted
+
+mount -t cifs //127.0.0.1/myshare /mnt/mounted -o username=null,password=null,domain=,rw
+
+ls mounted
+
+```
+
+### Enumeración de gestores de contenido (CMS) – WordPress (1/2)
+
+En esta clase estaremos enseñando técnicas de enumeración para el gestor de contenido (CMS) WordPress. Un gestor de contenido es una herramienta que permite la creación, gestión y publicación de contenidos digitales en la web, como por ejemplo páginas web, blogs, tiendas en línea, entre otros.
+
+WordPress es un CMS de código abierto muy popular que fue lanzado en 2003. Es utilizado por millones de sitios web en todo el mundo y se destaca por su facilidad de uso y flexibilidad. Con WordPress, los usuarios pueden crear y personalizar sitios web sin necesidad de conocimientos de programación avanzados. Además, cuenta con una amplia variedad de plantillas y plugins que permiten añadir funcionalidades adicionales al sitio.
+
+El proyecto que utilizamos en esta clase para enumerar un WordPress es el siguiente:
+
+[DVWP](https://github.com/vavkamil/dvwp)
+
+Una de las herramientas que utilizamos en esta clase para enumerar este gestor de contenido es Wpscan. Wpscan es una herramienta de código abierto que se utiliza para escanear sitios web en busca de vulnerabilidades de seguridad en WordPress.
+
+Con Wpscan, podemos realizar una enumeración completa del sitio web y obtener información detallada sobre la instalación de WordPress, como la versión utilizada, los plugins y temas instalados y los usuarios registrados en el sitio. También nos permite realizar pruebas de fuerza bruta para descubrir contraseñas débiles y vulnerabilidades conocidas en plugins y temas.
+
+Wpscan es una herramienta muy útil para los administradores de sitios web que desean mejorar la seguridad de su sitio WordPress, ya que permite identificar y corregir vulnerabilidades antes de que sean explotadas por atacantes malintencionados. Además, es una herramienta fácil de usar y muy efectiva para identificar posibles debilidades de seguridad en nuestro sitio web.
+
+El uso de esta herramienta es bastante sencillo, a continuación se indica la sintaxis básica:
+
+```bash
+wpscan --url https://example.com
+```
+
+Si deseas enumerar usuarios o plugins vulnerables en WordPress utilizando la herramienta wpscan, puedes añadir los siguientes parámetros a la línea de comandos:
+
+```bash
+wpscan --url https://example.com --enumerate u
+```
+
+En caso de querer enumerar plugins existentes los cuales sean vulnerables, puedes añadir el siguiente parámetro a la línea de comandos:
+
+```bash
+wpscan --url https://example.com --enumerate vp
+```
+
+Asimismo, otro de los recursos que contemplamos en esta clase es el archivo xmlrpc.php. Este archivo es una característica de WordPress que permite la comunicación entre el sitio web y aplicaciones externas utilizando el protocolo XML-RPC.
+
+El archivo xmlrpc.php es utilizado por muchos plugins y aplicaciones móviles de WordPress para interactuar con el sitio web y realizar diversas tareas, como publicar contenido, actualizar el sitio y obtener información.
+
+Sin embargo, este archivo también puede ser abusado por atacantes malintencionados para aplicar fuerza bruta y descubrir credenciales válidas de los usuarios del sitio. Esto se debe a que xmlrpc.php permite a los atacantes realizar un número ilimitado de solicitudes de inicio de sesión sin ser bloqueados, lo que hace que la ejecución de un ataque de fuerza bruta sea relativamente sencilla.
+
+En la siguiente clase estaremos desarrollando un script en Bash desde cero para realizar este tipo de ataques.
