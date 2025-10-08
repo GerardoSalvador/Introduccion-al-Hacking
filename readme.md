@@ -1782,7 +1782,13 @@ Su uso es bastante intuitivo, a continuación se comparte un ejemplo de uso de e
 droopescan scan drupal --url https://example.com
 ```
 
-Donde “scan” indica que queremos realizar un escaneo, “drupal” especifica que estamos realizando un escaneo de Drupal y “–url https://example.com” indica la URL del sitio web que se va a escanear.
+Donde “scan” indica que queremos realizar un escaneo, “drupal” especifica que estamos realizando un escaneo de Drupal y
+
+```bash
+–url https://example.com
+```
+
+indica la URL del sitio web que se va a escanear.
 
 Asimismo, os compartimos a continuación el enlace al proyecto de Github correspondiente al laboratorio que estaremos desplegando en Docker:
 
