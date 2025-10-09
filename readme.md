@@ -1837,3 +1837,23 @@ Con Obsidian, puedes dejar atrás las complicadas carpetas y sistemas de archivo
 A continuación, se os proporciona el enlace de descarga a esta utilidad:
 
 [Obsidian](https://obsidian.md/download)
+
+## Conceptos básicos de enumeración y explotación
+
+Una vez aplicada la fase de reconocimiento inicial, ya podríamos proceder con la fase de explotación, pero es importante comprender algunos conceptos antes de comenzar con la explotación de vulnerabilidades.
+
+A lo largo de las siguientes clases, exploraremos diferentes tipos de shells (como las reverse shells, bind shells y forward shells), las cuales nos permitirán establecer conexiones de red y tomar control de un sistema comprometido. Hablaremos sobre los diferentes tipos de payloads (staged y non-staged) y cómo se utilizan para ejecutar código malicioso en el sistema objetivo.
+
+Además, se discutirá la diferencia entre las explotaciones manuales y automatizadas, presentando herramientas que pueden ser utilizadas para automatizar el proceso de explotación de vulnerabilidades.
+
+Por último, se introducirá la herramienta BurpSuite, una suite de herramientas para realizar pruebas de penetración y análisis de vulnerabilidades en aplicaciones web.
+
+### Reverse Shells, Bind Shells y Forward Shells
+
+En esta clase, veremos las diferencias entre Reverse Shell, Bind Shell y Forward Shell:
+
+* Reverse Shell: Es una técnica que permite a un atacante conectarse a una máquina remota desde una máquina de su propiedad. Es decir, se establece una conexión desde la máquina comprometida hacia la máquina del atacante. Esto se logra ejecutando un programa malicioso o una instrucción específica en la máquina remota que establece la conexión de vuelta hacia la máquina del atacante, permitiéndole tomar el control de la máquina remota.
+* Bind Shell: Esta técnica es el opuesto de la Reverse Shell, ya que en lugar de que la máquina comprometida se conecte a la máquina del atacante, es el atacante quien se conecta a la máquina comprometida. El atacante escucha en un puerto determinado y la máquina comprometida acepta la conexión entrante en ese puerto. El atacante luego tiene acceso por consola a la máquina comprometida, lo que le permite tomar el control de la misma.
+* Forward Shell: Esta técnica se utiliza cuando no se pueden establecer conexiones Reverse o Bind debido a reglas de Firewall implementadas en la red. Se logra mediante el uso de mkfifo, que crea un archivo FIFO (named pipe), que se utiliza como una especie de “consola simulada” interactiva a través de la cual el atacante puede operar en la máquina remota. En lugar de establecer una conexión directa, el atacante redirige el tráfico a través del archivo FIFO, lo que permite la comunicación bidireccional con la máquina remota.
+
+Es importante entender las diferencias entre estas técnicas para poder determinar cuál es la mejor opción en función del escenario de ataque y las limitaciones de la red.
